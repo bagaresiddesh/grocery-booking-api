@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // Specify ECMAScript target version
+    "module": "CommonJS", // Specify module code generation
+    "rootDir": "./src", // Specify the root directory of input files
+    "outDir": "./dist", // Redirect output structure to this directory
+    "strict": true, // Enable strict type-checking options
+    "esModuleInterop": true, // Enable interop between CommonJS and ES Modules
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true, // Enforce consistent casing in file names
+    "resolveJsonModule": true // Allow importing .json files
+    ,
+    "tsconfig.json"
+  },
+  "include": [
+    "src/**/*.ts"
+  ], // Include all .ts files in the src folder
+  "exclude": [
+    "node_modules",
+    "dist"
+  ] // Exclude node_modules and dist folder
+}
