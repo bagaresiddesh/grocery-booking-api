@@ -11,7 +11,8 @@ class AdminService {
       const grocery = await Grocery.create(groceryData);
       return grocery;
     } catch (error) {
-      throw new Error(handleError(error));
+      const errorMessage = handleError(error, undefined, 'Failed to process request');
+      throw new Error(errorMessage); // Use the returned message
     }
   }
 
@@ -21,7 +22,8 @@ class AdminService {
       const groceries = await Grocery.findAll();
       return groceries;
     } catch (error) {
-      throw new Error(handleError(error));
+      const errorMessage = handleError(error, undefined, 'Failed to process request');
+      throw new Error(errorMessage); // Use the returned message
     }
   }
 
@@ -35,7 +37,8 @@ class AdminService {
       await grocery.update(groceryData);
       return grocery;
     } catch (error) {
-      throw new Error(handleError(error));
+      const errorMessage = handleError(error, undefined, 'Failed to process request');
+      throw new Error(errorMessage); // Use the returned message
     }
   }
 
@@ -48,7 +51,8 @@ class AdminService {
       await grocery.destroy();
       return { message: 'Grocery item deleted successfully' };
     } catch (error) {
-      throw new Error(handleError(error));
+      const errorMessage = handleError(error, undefined, 'Failed to process request');
+      throw new Error(errorMessage); // Use the returned message
     }
   }
 
@@ -62,7 +66,8 @@ class AdminService {
       await grocery.save();
       return grocery;
     } catch (error) {
-      throw new Error(handleError(error));
+      const errorMessage = handleError(error, undefined, 'Failed to process request');
+      throw new Error(errorMessage); // Use the returned message
     }
   }
 }

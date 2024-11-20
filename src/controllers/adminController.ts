@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import { AdminService } from '../services/adminService';
+import AdminService from '../services/adminService';
 import { handleError } from '../utils/errorHandler';
 
 export const AdminController = {
   async addGrocery(req: Request, res: Response) {
     try {
-      const grocery = await AdminService.addGrocery(req.body);
+      const grocery = await AdminService.createGrocery(req.body);
       res.status(201).json(grocery);
     } catch (error) {
-      handleError(res, error, 'Failed to add grocery');
+      handleError(error, res, 'Failed to add grocery');
     }
   },
 
@@ -17,7 +17,7 @@ export const AdminController = {
       const groceries = await AdminService.getAllGroceries();
       res.status(200).json(groceries);
     } catch (error) {
-      handleError(res, error, 'Failed to fetch groceries');
+      handleError(error, res, 'Failed to fetch groceries');
     }
   },
 
@@ -26,7 +26,7 @@ export const AdminController = {
       await AdminService.updateGrocery(Number(req.params.id), req.body);
       res.status(200).json({ message: 'Grocery updated successfully' });
     } catch (error) {
-      handleError(res, error, 'Failed to update grocery');
+      handleError(error, res, 'Failed to update grocery');
     }
   },
 
@@ -35,7 +35,7 @@ export const AdminController = {
       await AdminService.deleteGrocery(Number(req.params.id));
       res.status(200).json({ message: 'Grocery deleted successfully' });
     } catch (error) {
-      handleError(res, error, 'Failed to delete grocery');
+      handleError(error, res, 'Failed to delete grocery');
     }
   },
 
@@ -44,7 +44,7 @@ export const AdminController = {
       await AdminService.manageInventory(Number(req.params.id), req.body.inventory);
       res.status(200).json({ message: 'Inventory updated successfully' });
     } catch (error) {
-      handleError(res, error, 'Failed to manage inventory');
+      handleError(error, res, 'Failed to manage inventory');
     }
   },
 };

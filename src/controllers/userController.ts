@@ -1,46 +1,29 @@
+import userService from '../services/userService';
 import { Request, Response } from 'express';
-import UserService from '../services/userService';
 import { handleError } from '../utils/errorHandler';
 
-export const UserController = {
-  /**
-   * Fetch all available groceries
-   */
-  async getAvailableGroceries(req: Request, res: Response) {
-    try {
-      const groceries = await UserService.getAvailableGroceries();
-      return res.status(200).json({
-        success: true,
-        data: groceries,
-      });
-    } catch (error) {
-      return handleError(error);
-    }
-  },
+// Controller methods
+const getAvailableGroceries = async (req: Request, res: Response) => {
+  try {
+    const groceries = await userService.getAvailableGroceries();
+    res.status(200).json(groceries);
+  } catch (error) {
+    handleError(error, res, 'Failed to process request'); // Pass all arguments
+  }
+};
 
-  /**
-   * Book groceries
-   */
-  async bookGroceries(req: Request, res: Response) {
-    try {
-      const userId = Number(req.body.userId);
-      const items = req.body.items; // Expecting an array of { groceryId, quantity }
+const bookGroceries = async (req: Request, res: Response) => {
+  try {
+    const { userId, groceryIds } = req.body;
+    const order = await userService.bookGroceries(userId, groceryIds);
+    res.status(201).json(order);
+  } catch (error) {
+    handleError(error, res, 'Failed to process request'); // Pass all arguments
+  }
+};
 
-      if (!userId || !Array.isArray(items) || items.length === 0) {
-        return res.status(400).json({
-          success: false,
-          message: 'Invalid request. Provide a valid userId and grocery items.',
-        });
-      }
-
-      const order = await UserService.bookGroceries(userId, items);
-      return res.status(201).json({
-        success: true,
-        data: order,
-        message: 'Groceries booked successfully.',
-      });
-    } catch (error) {
-      return handleError(error);
-    }
-  },
+// Export as default
+export default {
+  getAvailableGroceries,
+  bookGroceries,
 };
