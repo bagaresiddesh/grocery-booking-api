@@ -1,9 +1,11 @@
-import { Router } from 'express';
+// src/routes/userRoutes.ts
+import express from 'express';
 import userController from '../controllers/userController';
 
-const router = Router();
+const router = express.Router();
 
+// Define the routes
 router.get('/groceries', userController.getAvailableGroceries);
-router.post('/groceries/book', userController.bookGroceries);
+router.post('/book', userController.bookGroceries);
 
 export default router;

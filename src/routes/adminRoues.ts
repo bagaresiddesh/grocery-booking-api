@@ -1,13 +1,12 @@
-import { Router } from 'express';
-import { addGrocery, getGroceries, updateGrocery, deleteGrocery, manageInventory } from '../controllers/adminController';
+import express from 'express';
+import { AdminController } from '../controllers/adminController';
 
-const adminRoutes = Router();
+const router = express.Router();
 
-// Admin Routes
-adminRoutes.post('/grocery', addGrocery); // Add a new grocery item
-adminRoutes.get('/groceries', getGroceries); // View existing grocery items
-adminRoutes.put('/grocery/:id', updateGrocery); // Update grocery details
-adminRoutes.delete('/grocery/:id', deleteGrocery); // Remove a grocery item
-adminRoutes.put('/grocery/:id/inventory', manageInventory); // Manage inventory levels
+router.post('/grocery', AdminController.addGrocery);
+router.get('/groceries', AdminController.getAllGroceries);
+router.put('/grocery/:id', AdminController.updateGrocery);
+router.delete('/grocery/:id', AdminController.deleteGrocery);
+router.patch('/grocery/:id/inventory', AdminController.manageInventory);
 
-export default adminRoutes;
+export default router;

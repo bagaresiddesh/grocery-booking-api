@@ -1,79 +1,50 @@
-import { RequestHandler } from 'express';
-import db from '../config/db';
+import { Request, Response } from 'express';
+import { AdminService } from '../services/adminService';
+import { handleError } from '../utils/errorHandler';
 
-// Add a new grocery item
-export const addGrocery: RequestHandler = async (req, res) => {
-  const { name, price, stock } = req.body;
-  try {
-    const [result] = await db.query('INSERT INTO groceries (name, price, stock) VALUES (?, ?, ?)', [name, price, stock]);
-    res.status(201).json({ message: 'Grocery item added successfully', id: (result as any).insertId });
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to add grocery item', error });
-  }
-};
-
-// View existing grocery items
-export const getGroceries: RequestHandler = async (req, res) => {
-  try {
-    const [rows] = await db.query('SELECT * FROM groceries');
-    res.status(200).json(rows);
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch grocery items', error });
-  }
-};
-
-// Update grocery details
-export const updateGrocery: RequestHandler = async (req, res) => {
-  const { id } = req.params;
-  const { name, price, stock } = req.body;
-
-  try {
-    const [result] = await db.query(
-      'UPDATE groceries SET name = ?, price = ?, stock = ? WHERE id = ?',
-      [name, price, stock, id]
-    );
-    if ((result as any).affectedRows === 0) {
-      res.status(404).json({ message: 'Grocery item not found' });
-      return;
+export const AdminController = {
+  async addGrocery(req: Request, res: Response) {
+    try {
+      const grocery = await AdminService.addGrocery(req.body);
+      res.status(201).json(grocery);
+    } catch (error) {
+      handleError(res, error, 'Failed to add grocery');
     }
-    res.status(200).json({ message: 'Grocery item updated successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to update grocery item', error });
-  }
-};
+  },
 
-// Remove a grocery item
-export const deleteGrocery: RequestHandler = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const [result] = await db.query('DELETE FROM groceries WHERE id = ?', [id]);
-    if ((result as any).affectedRows === 0) {
-      res.status(404).json({ message: 'Grocery item not found' });
-      return;
+  async getAllGroceries(req: Request, res: Response) {
+    try {
+      const groceries = await AdminService.getAllGroceries();
+      res.status(200).json(groceries);
+    } catch (error) {
+      handleError(res, error, 'Failed to fetch groceries');
     }
-    res.status(200).json({ message: 'Grocery item removed successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to remove grocery item', error });
-  }
-};
+  },
 
-// Manage inventory levels
-export const manageInventory: RequestHandler = async (req, res) => {
-  const { id } = req.params;
-  const { stock } = req.body;
-
-  try {
-    const [result] = await db.query(
-      'UPDATE groceries SET stock = ? WHERE id = ?',
-      [stock, id]
-    );
-    if ((result as any).affectedRows === 0) {
-      res.status(404).json({ message: 'Grocery item not found' });
-      return;
+  async updateGrocery(req: Request, res: Response) {
+    try {
+      await AdminService.updateGrocery(Number(req.params.id), req.body);
+      res.status(200).json({ message: 'Grocery updated successfully' });
+    } catch (error) {
+      handleError(res, error, 'Failed to update grocery');
     }
-    res.status(200).json({ message: 'Inventory updated successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Failed to update inventory', error });
-  }
+  },
+
+  async deleteGrocery(req: Request, res: Response) {
+    try {
+      await AdminService.deleteGrocery(Number(req.params.id));
+      res.status(200).json({ message: 'Grocery deleted successfully' });
+    } catch (error) {
+      handleError(res, error, 'Failed to delete grocery');
+    }
+  },
+
+  async manageInventory(req: Request, res: Response) {
+    try {
+      await AdminService.manageInventory(Number(req.params.id), req.body.inventory);
+      res.status(200).json({ message: 'Inventory updated successfully' });
+    } catch (error) {
+      handleError(res, error, 'Failed to manage inventory');
+    }
+  },
 };

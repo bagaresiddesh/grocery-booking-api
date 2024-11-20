@@ -1,33 +1,49 @@
-export interface Grocery {
-    id?: number;
-    name: string;
-    price: number;
-    stock: number;
-    created_at?: Date;
-    updated_at?: Date;
+import { DataTypes, Model, Optional } from 'sequelize';
+import sequelize from '../config/database'; // Importing sequelize from the config file
+
+interface GroceryAttributes {
+  id: number;
+  name: string;
+  price: number;
+  inventory: number;
+}
+
+type GroceryCreationAttributes = Optional<GroceryAttributes, 'id'>;
+
+export class Grocery extends Model<GroceryAttributes, GroceryCreationAttributes> implements GroceryAttributes {
+  public id!: number;
+  public name!: string;
+  public price!: number;
+  public inventory!: number;
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+Grocery.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    inventory: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    }
+  },
+  {
+    sequelize,  // Pass the sequelize instance
+    modelName: 'Grocery',
+    tableName: 'groceries',
+    timestamps: true,  // Create `createdAt` and `updatedAt` fields
   }
-  
-  export interface User {
-    id?: number;
-    name: string;
-    email: string;
-    password: string;
-    role: 'admin' | 'user';
-    created_at?: Date;
-  }
-  
-  export interface Order {
-    id?: number;
-    user_id: number;
-    total_price: number;
-    created_at?: Date;
-  }
-  
-  export interface OrderItem {
-    id?: number;
-    order_id: number;
-    grocery_id: number;
-    quantity: number;
-    price: number;
-  }
-  
+);

@@ -1,13 +1,14 @@
-import express, { Application } from 'express';
-import bodyParser from 'body-parser';
-import adminRoutes from './routes/adminRoues';
+import express from 'express';
 import userRoutes from './routes/userRoutes';
 
-const app: Application = express();
-app.use(bodyParser.json());
+const app = express();
 
-// Routes
-app.use('/admin', adminRoutes);
+// Middleware for parsing JSON request bodies
+app.use(express.json());
+
+// Use userRoutes for any routes starting with /user
 app.use('/user', userRoutes);
 
-export default app;
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
