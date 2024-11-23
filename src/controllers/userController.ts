@@ -2,13 +2,12 @@ import userService from '../services/userService';
 import { Request, Response } from 'express';
 import { handleError } from '../utils/errorHandler';
 
-// Controller methods
 const getAvailableGroceries = async (req: Request, res: Response) => {
   try {
     const groceries = await userService.getAvailableGroceries();
     res.status(200).json(groceries);
   } catch (error) {
-    handleError(error, res, 'Failed to process request'); // Pass all arguments
+    handleError(error, res, 'Failed to process request');
   }
 };
 
@@ -18,11 +17,10 @@ const bookGroceries = async (req: Request, res: Response) => {
     const order = await userService.bookGroceries(userId, groceryIds);
     res.status(201).json(order);
   } catch (error) {
-    handleError(error, res, 'Failed to process request'); // Pass all arguments
+    handleError(error, res, 'Failed to process request');
   }
 };
 
-// Export as default
 export default {
   getAvailableGroceries,
   bookGroceries,

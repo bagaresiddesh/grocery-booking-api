@@ -1,5 +1,5 @@
 import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../config/database'; // Importing sequelize from the config file
+import sequelize from '../config/database';
 
 interface GroceryAttributes {
   id: number;
@@ -41,9 +41,9 @@ Grocery.init(
     }
   },
   {
-    sequelize,  // Pass the sequelize instance
+    sequelize,
     modelName: 'Grocery',
     tableName: 'groceries',
-    timestamps: true,  // Create `createdAt` and `updatedAt` fields
+    timestamps: true,
   }
 );

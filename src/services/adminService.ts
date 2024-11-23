@@ -1,7 +1,4 @@
-// src/services/adminService.ts
-
-import { Grocery } from '../models/grocery'; // Import the Grocery model
-import { Order } from '../models/order'; // If needed, import other models like Order, etc.
+import { Grocery } from '../models/grocery';
 import { handleError } from '../utils/errorHandler';
 
 class AdminService {
@@ -12,7 +9,7 @@ class AdminService {
       return grocery;
     } catch (error) {
       const errorMessage = handleError(error, undefined, 'Failed to process request');
-      throw new Error(errorMessage); // Use the returned message
+      throw new Error(errorMessage);
     }
   }
 
@@ -23,7 +20,7 @@ class AdminService {
       return groceries;
     } catch (error) {
       const errorMessage = handleError(error, undefined, 'Failed to process request');
-      throw new Error(errorMessage); // Use the returned message
+      throw new Error(errorMessage);
     }
   }
 
@@ -32,13 +29,12 @@ class AdminService {
     try {
       const grocery = await Grocery.findByPk(id);
       if (!grocery) throw new Error('Grocery item not found');
-      
-      // Update fields if provided
+
       await grocery.update(groceryData);
       return grocery;
     } catch (error) {
       const errorMessage = handleError(error, undefined, 'Failed to process request');
-      throw new Error(errorMessage); // Use the returned message
+      throw new Error(errorMessage);
     }
   }
 
@@ -47,12 +43,12 @@ class AdminService {
     try {
       const grocery = await Grocery.findByPk(id);
       if (!grocery) throw new Error('Grocery item not found');
-      
+
       await grocery.destroy();
       return { message: 'Grocery item deleted successfully' };
     } catch (error) {
       const errorMessage = handleError(error, undefined, 'Failed to process request');
-      throw new Error(errorMessage); // Use the returned message
+      throw new Error(errorMessage);
     }
   }
 
@@ -61,13 +57,13 @@ class AdminService {
     try {
       const grocery = await Grocery.findByPk(id);
       if (!grocery) throw new Error('Grocery item not found');
-      
+
       grocery.inventory += quantity;
       await grocery.save();
       return grocery;
     } catch (error) {
       const errorMessage = handleError(error, undefined, 'Failed to process request');
-      throw new Error(errorMessage); // Use the returned message
+      throw new Error(errorMessage);
     }
   }
 }

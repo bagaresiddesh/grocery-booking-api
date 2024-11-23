@@ -1,5 +1,3 @@
-// src/services/userService.ts
-
 import { Grocery } from '../models/grocery';
 import { Order } from '../models/order';
 import { OrderItem } from '../models/orderItem';
@@ -13,17 +11,16 @@ interface BookGroceriesRequest {
 // Get available groceries
 const getAvailableGroceries = async () => {
   try {
-    const groceries = await Grocery.findAll();  // Assume Grocery is a model interacting with DB
+    const groceries = await Grocery.findAll();
     return groceries;
   } catch (error: unknown) {
-    throw new Error(handleError(error));  // Use handleError function for error message
+    throw new Error(handleError(error));
   }
 };
 
 // Book groceries
 const bookGroceries = async (userId: number, groceryIds: number[]) => {
   try {
-    // Fetch groceries from the database
     const groceries = await Grocery.findAll({
       where: {
         id: groceryIds,
@@ -54,7 +51,7 @@ const bookGroceries = async (userId: number, groceryIds: number[]) => {
     const orderItems = groceries.map((grocery: Grocery) => ({
       orderId: order.id,
       groceryId: grocery.id,
-      quantity: 1,  // Assuming quantity 1 for simplicity, can be adjusted as needed
+      quantity: 1,
       price: grocery.price,
     }));
 
@@ -62,7 +59,7 @@ const bookGroceries = async (userId: number, groceryIds: number[]) => {
 
     return order;
   } catch (error: unknown) {
-    throw new Error(handleError(error));  // Use handleError function for error message
+    throw new Error(handleError(error));
   }
 };
 

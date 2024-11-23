@@ -1,8 +1,5 @@
-// src/config/database.ts
-
 import { Sequelize } from 'sequelize';
 
-// Initialize Sequelize instance with MySQL credentials
 const sequelize = new Sequelize(
   'grocery_booking', // Database name
   'root', // Username

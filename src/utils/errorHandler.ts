@@ -1,13 +1,5 @@
 import { Response } from 'express';
 
-/**
- * Handles errors consistently across the application.
- *
- * @param error - The error object or message
- * @param res - Express Response object (optional)
- * @param message - Custom error message (optional, defaults to "An error occurred")
- * @returns The error message string
- */
 export const handleError = (
   error: unknown,
   res?: Response,
@@ -21,7 +13,7 @@ export const handleError = (
     errorMessage = error;
   }
 
-  console.error('Error:', error); // Log the error for debugging
+  console.error('Error:', error);
 
   if (res) {
     res.status(500).json({
